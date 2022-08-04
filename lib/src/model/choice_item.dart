@@ -43,8 +43,8 @@ class S2Choice<T> with Diagnosticable {
 
   /// Default constructor
   S2Choice({
-    @required this.value,
-    @required this.title,
+    required this.value,
+    required this.title,
     this.subtitle,
     this.group,
     this.disabled = false,
@@ -54,14 +54,13 @@ class S2Choice<T> with Diagnosticable {
     this.activeStyle,
     this.select,
     this.selected = false,
-  })  : assert(disabled != null),
-        assert(hidden != null);
+  });
 
   /// Helper to create option list from any list
   static List<S2Choice<R>> listFrom<R, E>({
-    @required List<E> source,
-    @required _S2OptionProp<E, R> value,
-    @required _S2OptionProp<E, String> title,
+    required List<E> source,
+    required _S2OptionProp<E, R> value,
+    required _S2OptionProp<E, String> title,
     _S2OptionProp<E, String> subtitle,
     _S2OptionProp<E, String> group,
     _S2OptionProp<E, bool> disabled,
@@ -75,15 +74,15 @@ class S2Choice<T> with Diagnosticable {
           .map((index, item) => MapEntry(
               index,
               S2Choice<R>(
-                value: value?.call(index, item),
-                title: title?.call(index, item),
-                subtitle: subtitle?.call(index, item),
-                group: group?.call(index, item),
-                disabled: disabled?.call(index, item) ?? false,
-                hidden: hidden?.call(index, item) ?? false,
-                meta: meta?.call(index, item),
-                style: style?.call(index, item),
-                activeStyle: activeStyle?.call(index, item),
+                value: value.call(index, item),
+                title: title.call(index, item),
+                subtitle: subtitle.call(index, item),
+                group: group.call(index, item),
+                disabled: disabled.call(index, item) ?? false,
+                hidden: hidden.call(index, item) ?? false,
+                meta: meta.call(index, item),
+                style: style.call(index, item),
+                activeStyle: activeStyle.call(index, item),
               )))
           .values
           .toList();

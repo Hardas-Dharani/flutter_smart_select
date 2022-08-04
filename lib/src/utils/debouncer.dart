@@ -7,14 +7,14 @@ class Debouncer {
   final Duration delay;
 
   /// debouncer timer
-  Timer _timer;
+  late Timer _timer;
 
   /// default constructor
   Debouncer({this.delay = const Duration(milliseconds: 300)});
 
   /// run the function
-  run(Function action, {Duration delay}) {
-    _timer?.cancel();
+  run(Function() action, {Duration? delay}) {
+    _timer.cancel();
     _timer = Timer(delay ?? this.delay, action);
   }
 }

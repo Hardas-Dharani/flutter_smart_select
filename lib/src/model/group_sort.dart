@@ -11,7 +11,7 @@ class S2GroupSort with Diagnosticable {
   final S2SortComparator<S2Group> compare;
 
   /// Default constructor
-  S2GroupSort(this.compare) : assert(compare != null);
+  S2GroupSort(this.compare);
 
   /// Function to sort the group keys alphabetically by name in ascending order
   factory S2GroupSort.byNameInAsc() => S2GroupSort((S2Group a, S2Group b) {

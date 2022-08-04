@@ -8,9 +8,9 @@ class CardTile extends StatelessWidget {
 
   CardTile({
     Key key,
-    @required this.title,
-    @required this.value,
-    @required this.thumb,
+    required this.title,
+    required this.value,
+    required this.thumb,
     this.onTap,
   }) : super(key: key);
 

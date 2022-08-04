@@ -74,7 +74,7 @@ class _S2TextErrorState extends State<S2TextError> {
 
   /// Set the [controller] by provider value
   void initController(newController) {
-    controller?.dispose();
+    controller.dispose();
     controller = (newController ?? defaultController)
       ..addListener(() => setState(() {}));
   }
@@ -111,7 +111,7 @@ class _S2TextErrorState extends State<S2TextError> {
   @override
   void dispose() {
     if (widget.controller == null) {
-      controller?.dispose();
+      controller.dispose();
     }
     super.dispose();
   }
@@ -120,12 +120,12 @@ class _S2TextErrorState extends State<S2TextError> {
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
       firstChild: Container(height: 0.0, width: 0.0),
-      secondChild: controller?.shaked == true ? shakedChild : widget.child,
+      secondChild: controller.shaked == true ? shakedChild : widget.child,
       duration: const Duration(milliseconds: 300),
       firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
       secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
       sizeCurve: Curves.fastOutSlowIn,
-      crossFadeState: controller?.visibled == true
+      crossFadeState: controller.visibled == true
           ? CrossFadeState.showSecond
           : CrossFadeState.showFirst,
     );

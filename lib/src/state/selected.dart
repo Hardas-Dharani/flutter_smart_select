@@ -53,7 +53,7 @@ abstract class S2Selected<T> extends ChangeNotifier {
   String error = '';
 
   /// Returns `true` when the selected is valid
-  bool get isValid => error == null || error?.length == 0;
+  bool get isValid => error.length == 0;
 
   /// Returns `true` when the selected is not valid
   bool get isNotValid => isValid != true;
@@ -137,7 +137,7 @@ class S2SingleSelected<T> extends S2Selected<T> {
     notifyListeners();
 
     try {
-      _choice = await resolver?.call(_value);
+      _choice = await resolver.call(_value);
     } catch (e) {
       throw e;
     } finally {
@@ -169,25 +169,25 @@ class S2SingleSelected<T> extends S2Selected<T> {
   /// return [choice.value]
   @override
   T get value {
-    return choice?.value ?? _value;
+    return choice.value ?? _value;
   }
 
   /// return [choice.title]
   @override
   String get title {
-    return choice?.title;
+    return choice.title;
   }
 
   /// return [choice.subtitle]
   @override
   String get subtitle {
-    return choice?.subtitle;
+    return choice.subtitle;
   }
 
   /// return [choice.group]
   @override
   String get group {
-    return choice?.group;
+    return choice.group;
   }
 
   @override
@@ -228,13 +228,13 @@ class S2MultiSelected<T> extends S2Selected<T> {
   final String placeholder;
 
   @override
-  int get length => choice?.length ?? 0;
+  int get length => choice.length ?? 0;
 
   @override
-  bool get isEmpty => choice == null || choice?.isEmpty == true;
+  bool get isEmpty => choice.isEmpty == true;
 
   @override
-  bool get isNotEmpty => choice != null && choice?.isNotEmpty == true;
+  bool get isNotEmpty => choice.isNotEmpty == true;
 
   @override
   void resolve({
@@ -247,7 +247,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
     notifyListeners();
 
     try {
-      _choice = await resolver?.call(_value);
+      _choice = await resolver.call(_value);
     } catch (e) {
       throw e;
     } finally {
@@ -313,7 +313,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
     return isResolving == true
         ? 'Resolving'
         : isValid == true
-            ? title?.join(', ') ?? placeholder ?? 'Select one or more'
+            ? title.join(', ') ?? placeholder ?? 'Select one or more'
             : error;
   }
 }

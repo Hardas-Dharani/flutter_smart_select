@@ -1,7 +1,5 @@
-import 'package:flutter/painting.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:ui';
 
 /// Configure choices group header style
 @immutable
@@ -52,7 +50,7 @@ class S2GroupHeaderStyle with Diagnosticable {
     return S2GroupHeaderStyle(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       highlightColor: highlightColor ?? this.highlightColor,
-      textStyle: this.textStyle?.merge(textStyle) ?? textStyle,
+      textStyle: this.textStyle.merge(textStyle) ?? textStyle,
       padding: padding ?? this.padding,
       height: height ?? this.height,
       crossAxisAlignment: crossAxisAlignment ?? this.crossAxisAlignment,

@@ -52,11 +52,11 @@ class S2Choices<T> extends ChangeNotifier {
 
   /// Returns values of the choice items
   List<T> get values {
-    return items?.map((S2Choice<T> choice) => choice.value)?.toList();
+    return items.map((S2Choice<T> choice) => choice.value).toList();
   }
 
   /// Returns length of the choice items
-  int get length => items?.length ?? 0;
+  int get length => items.length ?? 0;
 
   /// Returns `true` if the choice state is idle
   bool get isIdle => task == null;
@@ -74,10 +74,10 @@ class S2Choices<T> extends ChangeNotifier {
   bool get isAppending => task == S2ChoicesTask.append;
 
   /// Returns `true` if there are no item in the choice items
-  bool get isEmpty => items == null || items?.isEmpty == true;
+  bool get isEmpty => items.isEmpty == true;
 
   /// Returns `true` if there is at least one item in the choices items
-  bool get isNotEmpty => items != null && items?.isNotEmpty == true;
+  bool get isNotEmpty => items.isNotEmpty == true;
 
   /// Returns `true` if [choice] and [value] is not `null`
   bool get isPreloaded => preload != null;
@@ -105,7 +105,6 @@ class S2Choices<T> extends ChangeNotifier {
 
   /// Function to load choice items
   void load(S2ChoicesTask _task, {String query}) async {
-    assert(_task != null);
 
     // skip the loader if the status busy
     if (isBusy) return null;
@@ -166,7 +165,7 @@ class S2Choices<T> extends ChangeNotifier {
 
   /// Returns a list of group
   List<S2Group<T>> groupItems(S2GroupConfig config) {
-    if (groupKeys?.isEmpty == true) return null;
+    if (groupKeys.isEmpty == true) return null;
 
     final List<S2Group<T>> groups = groupKeys
         .map((String groupKey) => S2Group<T>(
@@ -178,7 +177,7 @@ class S2Choices<T> extends ChangeNotifier {
         .cast<S2Group<T>>();
 
     // sort the list when the comparator is provided
-    if (config.sortBy != null) return groups..sort(config.sortBy.compare);
+ return groups..sort(config.sortBy.compare);
 
     return groups;
   }

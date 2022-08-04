@@ -34,7 +34,7 @@ class S2Text extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if ((highlight?.isEmpty ?? true) || text.isEmpty) {
+    if ((highlight.isEmpty ?? true) || text.isEmpty) {
       return Text(text, style: style);
     }
 

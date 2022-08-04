@@ -86,9 +86,9 @@ class S2Tile<T> extends StatelessWidget {
   /// Create a default trigger widget
   S2Tile({
     Key key,
-    @required this.value,
-    @required this.onTap,
-    @required this.title,
+    required this.value,
+    required this.onTap,
+    required this.title,
     this.leading,
     this.trailing,
     this.loadingText,

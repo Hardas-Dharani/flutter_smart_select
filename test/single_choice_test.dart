@@ -5,7 +5,8 @@ import 'choices.dart' as choices;
 
 void main() {
   testSmartSelect(
-    title: 'Full page modal, default tile and radio choices displayed correctly',
+    title:
+        'Full page modal, default tile and radio choices displayed correctly',
     initialChoice: null,
     choiceToSelect: choices.days[3],
     choiceItems: choices.days,
@@ -14,7 +15,8 @@ void main() {
   );
 
   testSmartSelect(
-    title: 'Bottomsheet modal, default tile and chips choices displayed correctly',
+    title:
+        'Bottomsheet modal, default tile and chips choices displayed correctly',
     placeholder: 'Pilih Salah Satu',
     initialChoice: null,
     choiceToSelect: choices.heroes[2],
@@ -24,7 +26,8 @@ void main() {
   );
 
   testSmartSelect(
-    title: 'Popup dialog modal, default tile and switch choices displayed correctly',
+    title:
+        'Popup dialog modal, default tile and switch choices displayed correctly',
     initialChoice: choices.frameworks[0],
     choiceToSelect: choices.frameworks[1],
     choiceItems: choices.frameworks,
@@ -34,10 +37,10 @@ void main() {
 }
 
 testSmartSelect<T>({
-  @required String title,
-  @required S2Choice<T> initialChoice,
-  @required S2Choice<T> choiceToSelect,
-  @required List<S2Choice<T>> choiceItems,
+  required String title,
+  required S2Choice<T> initialChoice,
+  required S2Choice<T> choiceToSelect,
+  required List<S2Choice<T>> choiceItems,
   S2ModalType modalType = S2ModalType.fullPage,
   S2ChoiceType choiceType,
   String placeholder = 'Select one',
@@ -50,7 +53,7 @@ testSmartSelect<T>({
         child: SmartSelect<T>.single(
           title: title,
           placeholder: placeholder,
-          selectedValue: selectedChoice?.value,
+          selectedValue: selectedChoice.value,
           choiceItems: choiceItems,
           modalType: modalType,
           choiceType: choiceType,
@@ -77,7 +80,7 @@ testSmartSelect<T>({
     );
     expect(
       s2State.selected.value,
-      initialChoice?.value,
+      initialChoice.value,
       reason: 'Initial value is correct',
     );
 
@@ -99,7 +102,7 @@ testSmartSelect<T>({
 
     final tileValueFinder = find.descendant(
       of: s2Finder,
-      matching: find.text(initialChoice?.title ?? placeholder),
+      matching: find.text(initialChoice.title ?? placeholder),
     );
     expect(
       tileValueFinder,
@@ -195,7 +198,7 @@ class Bootstrap extends StatelessWidget {
 
   const Bootstrap({
     Key key,
-    @required this.child,
+    required this.child,
   }) : super(key: key);
 
   @override

@@ -104,8 +104,7 @@ class S2ModalHeaderStyle with Diagnosticable {
     this.actionsIconTheme,
     this.backgroundColor,
     this.brightness,
-  })  : assert(elevation != null),
-        assert(centerTitle != null);
+  });
 
   /// Creates a copy of this [S2ModalHeaderStyle] but with
   /// the given fields replaced with the new values.
@@ -128,11 +127,11 @@ class S2ModalHeaderStyle with Diagnosticable {
       brightness: brightness ?? this.brightness,
       useLeading: useLeading ?? this.useLeading,
       centerTitle: centerTitle ?? this.centerTitle,
-      textStyle: this.textStyle?.merge(textStyle) ?? textStyle,
-      errorStyle: this.errorStyle?.merge(errorStyle) ?? errorStyle,
-      iconTheme: this.iconTheme?.merge(iconTheme) ?? iconTheme,
+      textStyle: this.textStyle.merge(textStyle) ?? textStyle,
+      errorStyle: this.errorStyle.merge(errorStyle) ?? errorStyle,
+      iconTheme: this.iconTheme.merge(iconTheme) ?? iconTheme,
       actionsIconTheme:
-          this.actionsIconTheme?.merge(actionsIconTheme) ?? actionsIconTheme,
+          this.actionsIconTheme.merge(actionsIconTheme) ?? actionsIconTheme,
     );
   }
 

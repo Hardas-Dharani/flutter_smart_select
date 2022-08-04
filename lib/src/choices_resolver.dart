@@ -11,28 +11,28 @@ class S2ChoiceResolver<T> {
   final bool isMultiChoice;
 
   /// The choice type
-  final S2ChoiceType type;
+  final S2ChoiceType? type;
 
   /// Function to build the title widget
-  final Widget Function(S2Choice<T>) titleBuilder;
+  final Widget Function(S2Choice<T>)? titleBuilder;
 
   /// Function to build the subtitle widget
-  final Widget Function(S2Choice<T>) subtitleBuilder;
+  final Widget Function(S2Choice<T>)? subtitleBuilder;
 
   /// Function to build the secondary widget
-  final Widget Function(S2Choice<T>) secondaryBuilder;
+  final Widget Function(S2Choice<T>)? secondaryBuilder;
 
   /// Default constructor
   S2ChoiceResolver({
-    @required this.isMultiChoice,
-    @required this.type,
-    @required this.titleBuilder,
-    @required this.secondaryBuilder,
-    @required this.subtitleBuilder,
+    required this.isMultiChoice,
+    this.type,
+    this.titleBuilder,
+    this.secondaryBuilder,
+    this.subtitleBuilder,
   });
 
   /// Returns the correct builder based on choice type
-  S2WidgetBuilder<S2Choice<T>> get choiceBuilder {
+  S2WidgetBuilder<S2Choice<T>>? get choiceBuilder {
     return type == S2ChoiceType.checkboxes
         ? checkboxBuilder
         : type == S2ChoiceType.switches
@@ -53,12 +53,12 @@ class S2ChoiceResolver<T> {
   ) =>
       RadioListTile<T>(
         key: ValueKey(choice.value),
-        title: titleBuilder(choice),
-        subtitle: subtitleBuilder(choice),
-        secondary: secondaryBuilder(choice),
+        title: titleBuilder!(choice),
+        subtitle: subtitleBuilder!(choice),
+        secondary: secondaryBuilder!(choice),
         activeColor: choice.activeStyle.color,
         controlAffinity: ListTileControlAffinity
-            .values[choice.effectiveStyle.control?.index ?? 2],
+            .values[choice.effectiveStyle.control.index ?? 2],
         onChanged:
             choice.disabled != true ? (val) => choice.select(true) : null,
         groupValue: choice.selected == true ? choice.value : null,
@@ -72,16 +72,16 @@ class S2ChoiceResolver<T> {
   ) =>
       SwitchListTile(
         key: ValueKey(choice.value),
-        title: titleBuilder(choice),
-        subtitle: subtitleBuilder(choice),
-        secondary: secondaryBuilder(choice),
-        activeColor: choice.activeStyle.accentColor ?? choice.activeStyle.color,
-        activeTrackColor: choice.activeStyle.color?.withAlpha(0x80),
+        title: titleBuilder!(choice),
+        subtitle: subtitleBuilder!(choice),
+        secondary: secondaryBuilder!(choice),
+        activeColor: choice.activeStyle.accentColor,
+        activeTrackColor: choice.activeStyle.color.withAlpha(0x80),
         inactiveThumbColor: choice.style.accentColor,
-        inactiveTrackColor: choice.style.color?.withAlpha(0x80),
+        inactiveTrackColor: choice.style.color.withAlpha(0x80),
         contentPadding: choice.effectiveStyle.padding,
         controlAffinity: ListTileControlAffinity
-            .values[choice.effectiveStyle.control?.index ?? 2],
+            .values[choice.effectiveStyle.control.index ?? 2],
         onChanged: choice.disabled != true
             ? (selected) => choice.select(selected)
             : null,
@@ -95,15 +95,15 @@ class S2ChoiceResolver<T> {
   ) =>
       CheckboxListTile(
         key: ValueKey(choice.value),
-        title: titleBuilder(choice),
-        subtitle: subtitleBuilder(choice),
-        secondary: secondaryBuilder(choice),
+        title: titleBuilder!(choice),
+        subtitle: subtitleBuilder!(choice),
+        secondary: secondaryBuilder!(choice),
         activeColor: choice.activeStyle.color,
         contentPadding: choice.effectiveStyle.padding,
         controlAffinity: ListTileControlAffinity
-            .values[choice.effectiveStyle.control?.index ?? 2],
+            .values[choice.effectiveStyle.control.index ?? 2],
         onChanged: choice.disabled != true
-            ? (selected) => choice.select(selected)
+            ? (selected) => choice.select(selected!)
             : null,
         value: choice.selected,
       );
@@ -125,14 +125,14 @@ class S2ChoiceResolver<T> {
       labelStyle: effectiveStyle.titleStyle,
       selected: choice.selected,
       child: Padding(
-        padding: effectiveStyle?.margin ?? const EdgeInsets.all(0),
+        padding: effectiveStyle.margin ?? const EdgeInsets.all(0),
         child: RawChip(
           key: ValueKey(choice.value),
-          padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
-          label: titleBuilder(choice),
-          avatar: secondaryBuilder(choice),
-          clipBehavior: effectiveStyle?.clipBehavior ?? Clip.none,
-          showCheckmark: effectiveStyle?.showCheckmark ?? isMultiChoice,
+          padding: effectiveStyle.padding ?? const EdgeInsets.all(4),
+          label: titleBuilder!(choice),
+          avatar: secondaryBuilder!(choice),
+          clipBehavior: effectiveStyle.clipBehavior ?? Clip.none,
+          showCheckmark: effectiveStyle.showCheckmark ?? isMultiChoice,
           isEnabled: choice.disabled != true,
           onSelected: (selected) => choice.select(selected),
           selected: choice.selected,
@@ -170,9 +170,9 @@ class S2ChoiceResolver<T> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                secondaryBuilder(choice),
+                secondaryBuilder!(choice),
                 SizedBox(height: choice.effectiveStyle.spacing ?? 10),
-                titleBuilder(choice),
+                titleBuilder!(choice),
               ]..removeWhere((e) => e == null),
             ),
           ),

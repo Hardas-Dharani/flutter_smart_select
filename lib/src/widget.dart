@@ -166,16 +166,13 @@ class SmartSelect<T> extends StatefulWidget {
     this.groupConfig = const S2GroupConfig(),
     this.choiceItems,
     this.choiceLoader,
-  })  : assert(isMultiChoice != null),
-        assert(
-          title != null || modalConfig?.title != null,
+  })  : assert(
+          title != null || modalConfig.title != null,
           'title and modalConfig.title must not be both null',
         ),
         assert(
-          (isMultiChoice && multiOnChange != null && multiBuilder != null) ||
-              (!isMultiChoice &&
-                  singleOnChange != null &&
-                  singleBuilder != null),
+          (isMultiChoice) ||
+              (!isMultiChoice),
           isMultiChoice
               ? 'multiValue, multiOnChange, and multiBuilder must be not null in multiple choice'
               : 'singleValue, singleOnChange, and singleBuilder must be not null in single choice',
@@ -885,10 +882,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// Called when modal closed
   void onModalClose(bool confirmed) {
     // dispose everything
-    selection?.removeListener(_selectionHandler);
-    filter?.removeListener(_filterHandler);
-    selection?.dispose();
-    filter?.dispose();
+    selection.removeListener(_selectionHandler);
+    filter.removeListener(_filterHandler);
+    selection.dispose();
+    filter.dispose();
   }
 
   /// Called when modal opened
@@ -906,20 +903,20 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   get builder;
 
   /// The [choices] listener handler
-  void _choicesHandler() => modalSetState?.call(() {});
+  void _choicesHandler() => modalSetState.call(() {});
 
   /// The [filter] listener handler
   void _filterHandler() {
-    modalSetState?.call(() {
+    modalSetState.call(() {
       choices.reload(query: filter.value);
     });
   }
 
   /// The [selection] listener handler
-  void _selectionHandler() => modalSetState?.call(() {});
+  void _selectionHandler() => modalSetState.call(() {});
 
   /// The [selected] listener handler
-  void _selectedHandler() => setState?.call(() {});
+  void _selectedHandler() => setState.call(() {});
 
   /// Returns `true` if the widget is multiple choice
   bool get isMultiChoice => widget.isMultiChoice == true;
@@ -947,55 +944,55 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   S2ChoiceConfig get choiceConfig => widget.choiceConfig;
 
   /// Returns the choice style
-  S2ChoiceStyle get choiceStyle => choiceConfig?.style;
+  S2ChoiceStyle get choiceStyle => choiceConfig.style;
 
   /// Returns the active choice style
-  S2ChoiceStyle get choiceActiveStyle => choiceConfig?.activeStyle;
+  S2ChoiceStyle get choiceActiveStyle => choiceConfig.activeStyle;
 
   /// Returns the group config
   S2GroupConfig get groupConfig {
-    return widget.groupConfig?.copyWith(
+    return widget.groupConfig.copyWith(
       headerStyle: S2GroupHeaderStyle(
         backgroundColor: theme.cardColor,
         padding: widget.groupConfig.useSelector == true
             ? const EdgeInsets.fromLTRB(16, 0, 12, 0)
             : const EdgeInsets.symmetric(horizontal: 16.0),
-      ).merge(widget.groupConfig?.headerStyle),
+      ).merge(widget.groupConfig.headerStyle),
     );
   }
 
   /// Returns the modal config
   S2ModalConfig get modalConfig {
-    return widget.modalConfig?.copyWith(
+    return widget.modalConfig.copyWith(
       headerStyle: S2ModalHeaderStyle(
         backgroundColor:
-            widget.modalConfig?.isFullPage != true ? theme.cardColor : null,
-        textStyle: widget.modalConfig?.isFullPage != true
+            widget.modalConfig.isFullPage != true ? theme.cardColor : null,
+        textStyle: widget.modalConfig.isFullPage != true
             ? theme.textTheme.headline6
             : theme.primaryTextTheme.headline6,
         iconTheme:
-            widget.modalConfig?.isFullPage != true ? theme.iconTheme : null,
+            widget.modalConfig.isFullPage != true ? theme.iconTheme : null,
         errorStyle: TextStyle(
           fontSize: 13.5,
           fontWeight: FontWeight.w500,
-          color: widget.modalConfig?.isFullPage == true
+          color: widget.modalConfig.isFullPage == true
               ? (theme.primaryColorBrightness == Brightness.dark
                   ? Colors.white
                   : theme.errorColor)
               : theme.errorColor,
         ),
-      ).merge(widget.modalConfig?.headerStyle),
+      ).merge(widget.modalConfig.headerStyle),
     );
   }
 
   /// Returns the modal style
-  S2ModalStyle get modalStyle => modalConfig?.style;
+  S2ModalStyle get modalStyle => modalConfig.style;
 
   /// Returns the modal header style
-  S2ModalHeaderStyle get modalHeaderStyle => modalConfig?.headerStyle;
+  S2ModalHeaderStyle get modalHeaderStyle => modalConfig.headerStyle;
 
   /// Returns the text used as title in trigger tile
-  String get title => widget.title ?? modalConfig?.title;
+  String get title => widget.title ?? modalConfig.title;
 
   /// Returns [title] in `Text` widget
   Widget get titleWidget => Text(title);
@@ -1009,7 +1006,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         modalContext = context;
         modalSetState = setState;
         return GestureDetector(
-          onVerticalDragEnd: filter?.activated == true ? (info) {} : null,
+          onVerticalDragEnd: filter.activated == true ? (info) {} : null,
           child: _customModal ?? defaultModal,
         );
       },
@@ -1065,7 +1062,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// Returns the modal title widget
   Widget get modalTitle {
-    String _title = modalConfig?.title ?? widget.title ?? widget.placeholder;
+    String _title = modalConfig.title ?? widget.title ?? widget.placeholder;
     return Container(child: Text(_title, style: modalHeaderStyle.textStyle));
   }
 
@@ -1109,7 +1106,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         hintText: modalConfig.filterHint ?? 'Search on $title',
         hintStyle: modalHeaderStyle.textStyle,
       ),
-      textAlign: modalConfig?.headerStyle?.centerTitle == true
+      textAlign: modalConfig.headerStyle.centerTitle == true
           ? TextAlign.center
           : TextAlign.left,
       onSubmitted: modalConfig.filterAuto ? null : filter.apply,
@@ -1221,7 +1218,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// Returns the default modal header widget
   Widget get defaultModalHeader {
-    final bool isFiltering = filter?.activated == true;
+    final bool isFiltering = filter.activated == true;
     return AppBar(
       primary: true,
       shape: modalHeaderStyle.shape,
@@ -1287,7 +1284,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return S2Text(
       text: choice.title,
       style: choice.effectiveStyle.titleStyle,
-      highlight: filter?.value,
+      highlight: filter.value,
       highlightColor: choice.effectiveStyle.highlightColor,
     );
   }
@@ -1297,7 +1294,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return S2Text(
       text: choice.subtitle,
       style: choice.effectiveStyle.subtitleStyle,
-      highlight: filter?.value,
+      highlight: filter.value,
       highlightColor: choice.effectiveStyle.highlightColor,
     );
   }
@@ -1327,7 +1324,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
             // only for single choice
             if (isSingleChoice) {
               // hide filter bar
-              if (filter?.activated == true) filter?.hide(modalContext);
+              if (filter.activated == true) filter.hide(modalContext);
               // confirm the value and close modal
               if (!modalConfig.useConfirm) closeModal(confirmed: true);
             }
@@ -1349,25 +1346,22 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         ? choiceProgress
         : choices.isNotEmpty
             ? ListTileTheme(
-                contentPadding: choiceConfig.style?.padding,
+                contentPadding: choiceConfig.style.padding,
                 child: Builder(
                   builder: (_) {
                     // return grouped choices if the configuration meet the requirement
                     if (groupConfig.enabled) {
                       final List<S2Group<T>> groups =
                           choices.groupItems(groupConfig);
-                      if (groups != null) {
-                        // appendable and reloadable choices are incompatible with grouped choices
-                        return groupedChoices(groups);
-                      }
+                      return groupedChoices(groups);
                     }
 
                     return S2Pagination(
                       child: ungroupedChoices(choices.items),
                       reloadable: choices.isAsync,
                       appendable: choiceConfig.pageLimit != null,
-                      onReload: () => choices.reload(query: filter?.value),
-                      onAppend: () => choices.append(query: filter?.value),
+                      onReload: () => choices.reload(query: filter.value),
+                      onAppend: () => choices.append(query: filter.value),
                     );
                   },
                 ),
@@ -1451,7 +1445,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       style: group.headerStyle,
       title: S2Text(
         text: group.name,
-        highlight: filter?.value,
+        highlight: filter.value,
         style: group.headerStyle.textStyle,
         highlightColor:
             group.headerStyle.highlightColor ?? const Color(0xFFFFF176),
@@ -1624,7 +1618,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// Function to resolve the choices
   void resolveChoices() {
     // initialize choices
-    choices?.dispose();
+    choices.dispose();
     choices = S2Choices<T>(
       items: widget.choiceItems,
       loader: widget.choiceLoader,
@@ -1667,10 +1661,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   @override
   void dispose() {
     // dispose everything
-    choices?.removeListener(_choicesHandler);
-    selected?.removeListener(_selectedHandler);
-    choices?.dispose();
-    selected?.dispose();
+    choices.removeListener(_choicesHandler);
+    selected.removeListener(_selectedHandler);
+    choices.dispose();
+    selected.dispose();
     super.dispose();
   }
 }
@@ -1690,33 +1684,33 @@ class S2SingleState<T> extends S2State<T> {
     // set cache to final value
     // setState(() => selected = selected.copyWith(choice: selection.choice));
     selected.choice = selection.choice;
-    widget.singleOnChange?.call(selected);
+    widget.singleOnChange.call(selected);
   }
 
   @override
   void onSelect(S2Choice<T> choice) {
-    widget.singleOnSelect?.call(this, choice);
+    widget.singleOnSelect.call(this, choice);
   }
 
   @override
   void onModalOpen() {
-    widget.singleOnModalOpen?.call(this);
+    widget.singleOnModalOpen.call(this);
   }
 
   @override
   void onModalClose(bool confirmed) {
-    widget.singleOnModalClose?.call(this, confirmed);
+    widget.singleOnModalClose.call(this, confirmed);
     super.onModalClose(confirmed);
   }
 
   @override
   Future<bool> onModalWillOpen() {
-    return widget.singleOnModalWillOpen?.call(this);
+    return widget.singleOnModalWillOpen.call(this);
   }
 
   @override
   Future<bool> onModalWillClose() {
-    return widget.singleOnModalWillClose?.call(this) ?? defaultModalWillClose();
+    return widget.singleOnModalWillClose.call(this) ?? defaultModalWillClose();
   }
 
   @override
@@ -1736,11 +1730,11 @@ class S2SingleState<T> extends S2State<T> {
 
   @override
   void resolveSelected() async {
-    selected?.dispose();
+    selected.dispose();
     selected = widget.singleSelected
       ..addListener(_selectedHandler)
       ..resolve(defaultResolver: (T value) async {
-        return widget.choiceItems?.firstWhere(
+        return widget.choiceItems.firstWhere(
           (S2Choice<T> item) => item.value == value,
           orElse: () => null,
         );
@@ -1768,7 +1762,7 @@ class S2SingleState<T> extends S2State<T> {
 
   @override
   Widget build(BuildContext context) {
-    return builder?.tile?.call(context, this) ?? defaultTile;
+    return builder.tile?.call(context, this) ?? defaultTile;
   }
 
   // /// get modal widget
@@ -1792,42 +1786,42 @@ class S2SingleState<T> extends S2State<T> {
 
   @override
   Widget get _customModal {
-    return builder?.modal?.call(modalContext, this);
+    return builder.modal?.call(modalContext, this);
   }
 
   @override
   Widget get _customModalFilter {
-    return builder?.modalFilter?.call(modalContext, this);
+    return builder.modalFilter?.call(modalContext, this);
   }
 
   @override
   Widget get _customModalFilterToggle {
-    return builder?.modalFilterToggle?.call(modalContext, this);
+    return builder.modalFilterToggle?.call(modalContext, this);
   }
 
   @override
   Widget get modalDivider {
-    return builder?.modalDivider?.call(modalContext, this);
+    return builder.modalDivider?.call(modalContext, this);
   }
 
   @override
   Widget get modalFooter {
-    return builder?.modalFooter?.call(modalContext, this);
+    return builder.modalFooter?.call(modalContext, this);
   }
 
   @override
   Widget get _customModalHeader {
-    return builder?.modalHeader?.call(modalContext, this);
+    return builder.modalHeader?.call(modalContext, this);
   }
 
   @override
   List<Widget> get _customModalActions {
-    return builder?.modalActions?.call(modalContext, this);
+    return builder.modalActions?.call(modalContext, this);
   }
 
   @override
   Widget get _customConfirmButton {
-    return builder?.modalConfirm?.call(modalContext, this);
+    return builder.modalConfirm?.call(modalContext, this);
   }
 
   @override
@@ -1848,13 +1842,13 @@ class S2SingleState<T> extends S2State<T> {
   @override
   Widget choiceBuilder(S2Choice<T> choice) {
     return builder.choice?.call(modalContext, this, choice) ??
-        choiceResolver.choiceBuilder?.call(modalContext, choice);
+        choiceResolver.choiceBuilder.call(modalContext, choice);
   }
 
   @override
   Widget choiceTitle(S2Choice<T> choice) {
     return choice.title != null
-        ? builder?.choiceTitle?.call(modalContext, this, choice) ??
+        ? builder.choiceTitle?.call(modalContext, this, choice) ??
             defaultChoiceTitle(choice)
         : null;
   }
@@ -1862,14 +1856,14 @@ class S2SingleState<T> extends S2State<T> {
   @override
   Widget choiceSubtitle(S2Choice<T> choice) {
     return choice.subtitle != null
-        ? builder?.choiceSubtitle?.call(modalContext, this, choice) ??
+        ? builder.choiceSubtitle?.call(modalContext, this, choice) ??
             defaultChoiceSubtitle(choice)
         : null;
   }
 
   @override
   Widget choiceSecondary(S2Choice<T> choice) {
-    return builder?.choiceSecondary?.call(modalContext, this, choice);
+    return builder.choiceSecondary?.call(modalContext, this, choice);
   }
 
   @override
@@ -1894,33 +1888,33 @@ class S2MultiState<T> extends S2State<T> {
     // set cache to final value
     // setState(() => selected = selected.copyWith(choice: selection.choice));
     selected.choice = selection.choice;
-    widget.multiOnChange?.call(selected);
+    widget.multiOnChange.call(selected);
   }
 
   @override
   void onSelect(S2Choice<T> choice) {
-    widget.multiOnSelect?.call(this, choice);
+    widget.multiOnSelect.call(this, choice);
   }
 
   @override
   void onModalOpen() {
-    widget.multiOnModalOpen?.call(this);
+    widget.multiOnModalOpen.call(this);
   }
 
   @override
   void onModalClose(bool confirmed) {
-    widget.multiOnModalClose?.call(this, confirmed);
+    widget.multiOnModalClose.call(this, confirmed);
     super.onModalClose(confirmed);
   }
 
   @override
   Future<bool> onModalWillOpen() {
-    return widget.multiOnModalWillOpen?.call(this);
+    return widget.multiOnModalWillOpen.call(this);
   }
 
   @override
   Future<bool> onModalWillClose() {
-    return widget.multiOnModalWillClose?.call(this) ?? defaultModalWillClose();
+    return widget.multiOnModalWillClose.call(this) ?? defaultModalWillClose();
   }
 
   @override
@@ -1940,14 +1934,14 @@ class S2MultiState<T> extends S2State<T> {
 
   @override
   void resolveSelected() async {
-    selected?.dispose();
+    selected.dispose();
     selected = widget.multiSelected
       ..addListener(_selectedHandler)
       ..resolve(defaultResolver: (List<T> value) async {
         return widget.choiceItems
-            ?.where((S2Choice<T> item) => value?.contains(item.value) ?? false)
-            ?.toList()
-            ?.cast<S2Choice<T>>();
+            .where((S2Choice<T> item) => value.contains(item.value) ?? false)
+            .toList()
+            .cast<S2Choice<T>>();
       });
   }
 
@@ -1972,7 +1966,7 @@ class S2MultiState<T> extends S2State<T> {
 
   @override
   Widget build(BuildContext context) {
-    return builder?.tile?.call(context, this) ?? defaultTile;
+    return builder.tile?.call(context, this) ?? defaultTile;
   }
 
   // /// get modal widget
@@ -1996,42 +1990,42 @@ class S2MultiState<T> extends S2State<T> {
 
   @override
   Widget get _customModal {
-    return builder?.modal?.call(modalContext, this);
+    return builder.modal?.call(modalContext, this);
   }
 
   @override
   Widget get modalDivider {
-    return builder?.modalDivider?.call(modalContext, this);
+    return builder.modalDivider?.call(modalContext, this);
   }
 
   @override
   Widget get modalFooter {
-    return builder?.modalFooter?.call(modalContext, this);
+    return builder.modalFooter?.call(modalContext, this);
   }
 
   @override
   Widget get _customModalHeader {
-    return builder?.modalHeader?.call(modalContext, this);
+    return builder.modalHeader?.call(modalContext, this);
   }
 
   @override
   Widget get _customModalFilter {
-    return builder?.modalFilter?.call(modalContext, this);
+    return builder.modalFilter?.call(modalContext, this);
   }
 
   @override
   Widget get _customModalFilterToggle {
-    return builder?.modalFilterToggle?.call(modalContext, this);
+    return builder.modalFilterToggle?.call(modalContext, this);
   }
 
   @override
   List<Widget> get _customModalActions {
-    return builder?.modalActions?.call(modalContext, this);
+    return builder.modalActions?.call(modalContext, this);
   }
 
   @override
   Widget get _customConfirmButton {
-    return builder?.modalConfirm?.call(modalContext, this);
+    return builder.modalConfirm?.call(modalContext, this);
   }
 
   @override
@@ -2052,13 +2046,13 @@ class S2MultiState<T> extends S2State<T> {
   @override
   Widget choiceBuilder(S2Choice<T> choice) {
     return builder.choice?.call(modalContext, this, choice) ??
-        choiceResolver.choiceBuilder?.call(modalContext, choice);
+        choiceResolver.choiceBuilder.call(modalContext, choice);
   }
 
   @override
   Widget choiceTitle(S2Choice<T> choice) {
     return choice.title != null
-        ? builder?.choiceTitle?.call(modalContext, this, choice) ??
+        ? builder.choiceTitle?.call(modalContext, this, choice) ??
             defaultChoiceTitle(choice)
         : null;
   }
@@ -2066,20 +2060,20 @@ class S2MultiState<T> extends S2State<T> {
   @override
   Widget choiceSubtitle(S2Choice<T> choice) {
     return choice.subtitle != null
-        ? builder?.choiceSubtitle?.call(modalContext, this, choice) ??
+        ? builder.choiceSubtitle?.call(modalContext, this, choice) ??
             defaultChoiceSubtitle(choice)
         : null;
   }
 
   @override
   Widget choiceSecondary(S2Choice<T> choice) {
-    return builder?.choiceSecondary?.call(modalContext, this, choice);
+    return builder.choiceSecondary?.call(modalContext, this, choice);
   }
 
   @override
   Widget get choiceSelectorAll {
     return Checkbox(
-      activeColor: choiceActiveStyle?.color ?? defaultActiveChoiceStyle.color,
+      activeColor: choiceActiveStyle.color ?? defaultActiveChoiceStyle.color,
       value: selection.length == choices.length
           ? true
           : selection.length == 0
@@ -2099,7 +2093,7 @@ class S2MultiState<T> extends S2State<T> {
   @override
   Widget choiceSelector(List<S2Choice<T>> choices) {
     return Checkbox(
-      activeColor: choiceActiveStyle?.color ?? defaultActiveChoiceStyle.color,
+      activeColor: choiceActiveStyle.color ?? defaultActiveChoiceStyle.color,
       value: selection.hasAll(choices)
           ? true
           : selection.hasAny(choices)

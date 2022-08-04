@@ -19,11 +19,11 @@ class S2ChoicesList<T> extends StatelessWidget {
 
   /// Default constructor
   S2ChoicesList({
-    Key key,
-    @required this.itemLength,
-    @required this.itemBuilder,
-    @required this.dividerBuilder,
-    @required this.config,
+    Key? key,
+    required this.itemLength,
+    required this.itemBuilder,
+    required this.dividerBuilder,
+    required this.config,
   }) : super(key: key);
 
   @override

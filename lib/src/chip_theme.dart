@@ -5,7 +5,7 @@ class S2ChipTheme extends StatelessWidget {
   /// Default constructor
   S2ChipTheme({
     Key key,
-    @required this.child,
+    required this.child,
     this.color,
     this.outlined = false,
     this.raised = false,

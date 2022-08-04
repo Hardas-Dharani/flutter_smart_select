@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import './group_style.dart';
 import './group_sort.dart';
 
@@ -30,8 +29,7 @@ class S2GroupConfig with Diagnosticable {
     this.useCounter = true,
     this.sortBy,
     this.headerStyle = const S2GroupHeaderStyle(),
-  })  : assert(enabled != null),
-        assert(headerStyle != null);
+  });
 
   /// Opposite value of enabled
   bool get disabled => !enabled;
@@ -50,7 +48,7 @@ class S2GroupConfig with Diagnosticable {
       useSelector: useSelector ?? this.useSelector,
       useCounter: useCounter ?? this.useCounter,
       sortBy: sortBy ?? this.sortBy,
-      headerStyle: this.headerStyle?.merge(headerStyle) ?? headerStyle,
+      headerStyle: this.headerStyle.merge(headerStyle) ?? headerStyle,
     );
   }
 

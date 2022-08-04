@@ -146,7 +146,7 @@ mixin S2MultiChosenData<T> on S2ChosenData<T> {
 
   @override
   String toString() {
-    return title?.join(', ');
+    return title.join(', ');
   }
 
   @override
@@ -208,7 +208,7 @@ abstract class S2ChosenNotifier<T> extends ChangeNotifier with S2ChosenData<T> {
   String error = '';
 
   /// Returns true when the selection is valid
-  bool get isValid => error == null || error?.length == 0;
+  bool get isValid => error.length == 0;
 
   /// Returns true when the selection is not valid
   bool get isNotValid => isValid != true;
@@ -231,7 +231,7 @@ mixin S2SingleChosenNotifier<T> on S2ChosenNotifier<T> {
   /// Validate the selection
   @override
   void validate() {
-    error = validation?.call(S2SingleChosen(choice)) ?? '';
+    error = validation.call(S2SingleChosen(choice)) ?? '';
     notifyListeners();
   }
 }
@@ -244,7 +244,7 @@ mixin S2MultiChosenNotifier<T> on S2ChosenNotifier<T> {
   /// Validate the selection
   @override
   void validate() {
-    error = validation?.call(S2MultiChosen(choice)) ?? '';
+    error = validation.call(S2MultiChosen(choice)) ?? '';
     notifyListeners();
   }
 }
@@ -302,7 +302,7 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
 
   @override
   void validate() {
-    error = validation?.call(S2SingleChosen(choice)) ?? '';
+    error = validation.call(S2SingleChosen(choice)) ?? '';
     notifyListeners();
   }
 
@@ -321,7 +321,7 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
     notifyListeners();
 
     try {
-      _choice = await resolver?.call(_value);
+      _choice = await resolver.call(_value);
     } catch (e) {
       throw e;
     } finally {
@@ -353,7 +353,7 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
   /// Returns [choice.value]
   @override
   T get value {
-    return choice?.value ?? _value;
+    return choice.value ?? _value;
   }
 
   @override
@@ -390,7 +390,7 @@ class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
 
   @override
   void validate() {
-    error = validation?.call(S2MultiChosen(choice)) ?? '';
+    error = validation.call(S2MultiChosen(choice)) ?? '';
     notifyListeners();
   }
 
@@ -409,7 +409,7 @@ class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
     notifyListeners();
 
     try {
-      _choice = await resolver?.call(_value);
+      _choice = await resolver.call(_value);
     } catch (e) {
       throw e;
     } finally {
@@ -451,7 +451,7 @@ class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
     return isResolving == true
         ? 'Resolving'
         : isValid == true
-            ? title?.join(', ') ?? placeholder ?? 'Select one or more'
+            ? title.join(', ') ?? placeholder ?? 'Select one or more'
             : error;
   }
 }
@@ -484,7 +484,7 @@ class S2SingleSelection<T> extends S2Selection<T> with S2SingleChosenData<T> {
 
   /// Default constructor
   S2SingleSelection({
-    @required this.initial,
+    required this.initial,
     this.validation,
   }) : _choice = initial;
 
@@ -496,7 +496,7 @@ class S2SingleSelection<T> extends S2Selection<T> with S2SingleChosenData<T> {
 
   @override
   void validate() {
-    error = validation?.call(S2SingleChosen(choice)) ?? '';
+    error = validation.call(S2SingleChosen(choice)) ?? '';
     notifyListeners();
   }
 
@@ -538,7 +538,7 @@ class S2MultiSelection<T> extends S2Selection<T> with S2MultiChosenData<T> {
 
   /// Default constructor
   S2MultiSelection({
-    @required List<S2Choice<T>> initial,
+    required List<S2Choice<T>> initial,
     this.validation,
   })  : initial = List.from(initial ?? []),
         _choice = List.from(initial ?? []);
@@ -551,7 +551,7 @@ class S2MultiSelection<T> extends S2Selection<T> with S2MultiChosenData<T> {
 
   @override
   void validate() {
-    error = validation?.call(S2MultiChosen(choice)) ?? '';
+    error = validation.call(S2MultiChosen(choice)) ?? '';
     notifyListeners();
   }
 
@@ -563,7 +563,7 @@ class S2MultiSelection<T> extends S2Selection<T> with S2MultiChosenData<T> {
 
   @override
   String toString() {
-    return isValid == true ? (title?.join(', ') ?? '') : error;
+    return isValid == true ? (title.join(', ') ?? '') : error;
   }
 
   @override

@@ -131,8 +131,7 @@ class S2ChoiceConfig with Diagnosticable {
     this.physics = const ScrollPhysics(),
     this.pageLimit,
     this.delay,
-  })  : assert(physics != null),
-        assert(useDivider != null);
+  });
 
   /// Whether the [layout] is [S2ChoiceLayout.wrap] or [type] is [S2ChoiceType.chips]
   bool get isWrapLayout =>
@@ -183,8 +182,8 @@ class S2ChoiceConfig with Diagnosticable {
       dividerSpacing: dividerSpacing ?? this.dividerSpacing,
       dividerThickness: dividerThickness ?? this.dividerThickness,
       overscrollColor: overscrollColor ?? this.overscrollColor,
-      style: this.style?.merge(style) ?? style,
-      activeStyle: this.activeStyle?.merge(activeStyle) ?? activeStyle,
+      style: this.style.merge(style) ?? style,
+      activeStyle: this.activeStyle.merge(activeStyle) ?? activeStyle,
       physics: physics ?? this.physics,
       pageLimit: pageLimit ?? this.pageLimit,
       delay: delay ?? this.delay,

@@ -61,8 +61,8 @@ class S2TileChips extends StatelessWidget {
   /// Create a chips tile/trigger widget
   S2TileChips({
     Key key,
-    @required this.chipLength,
-    @required this.chipLabelBuilder,
+    required this.chipLength,
+    required this.chipLabelBuilder,
     this.chipAvatarBuilder,
     this.chipBuilder,
     this.chipOnDelete,
@@ -79,10 +79,7 @@ class S2TileChips extends StatelessWidget {
     this.placeholder,
     this.scrollable = false,
     this.padding,
-  })  : assert(chipOutlined != null),
-        assert(chipRaised != null),
-        assert(scrollable != null),
-        super(key: key);
+  }) : super(key: key);
 
   /// default padding
   static const EdgeInsetsGeometry defaultPadding =
@@ -145,7 +142,7 @@ class S2TileChips extends StatelessWidget {
       (i) {
         // build chip widget
         Widget _chip =
-            chipBuilder?.call(context, i) ?? _chipGenerator(context, i);
+            chipBuilder.call(context, i) ?? _chipGenerator(context, i);
 
         // add spacing if chip is scrollable
         if (scrollable) {
@@ -164,8 +161,8 @@ class S2TileChips extends StatelessWidget {
 
   Widget _chipGenerator(BuildContext context, int i) {
     return Chip(
-      label: chipLabelBuilder?.call(context, i),
-      avatar: chipAvatarBuilder?.call(context, i),
+      label: chipLabelBuilder.call(context, i),
+      avatar: chipAvatarBuilder.call(context, i),
       deleteIcon: chipDeleteIcon,
       onDeleted: chipOnDelete != null ? () => chipOnDelete(i) : null,
     );

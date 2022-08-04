@@ -22,10 +22,10 @@ class S2Group<T> with Diagnosticable {
   });
 
   /// Group choice items length
-  int get count => choices?.length ?? 0;
+  int get count => choices.length ?? 0;
 
   /// Group choice item values
-  List<T> get values => choices?.map((e) => e.value)?.toList()?.cast<T>() ?? [];
+  List<T> get values => choices.map((e) => e.value).toList().cast<T>() ?? [];
 
   /// Creates a copy of this [S2Group] but with
   /// the given fields replaced with the new values.

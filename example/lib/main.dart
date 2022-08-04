@@ -11,20 +11,14 @@ class MyApp extends StatelessWidget {
     return ThemePatrol(
       light: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.red,
         primaryColor: Colors.red,
-        accentColor: Colors.red,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        useTextSelectionTheme: true,
+        visualDensity: VisualDensity.adaptivePlatformDensity, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(secondary: Colors.red),
       ),
       dark: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.red,
         primaryColor: Colors.red,
-        accentColor: Colors.red,
         toggleableActiveColor: Colors.red,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        useTextSelectionTheme: true,
+        visualDensity: VisualDensity.adaptivePlatformDensity, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(secondary: Colors.red),
       ),
       mode: ThemeMode.system,
       builder: (context, theme) {

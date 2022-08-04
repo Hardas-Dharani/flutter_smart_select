@@ -42,7 +42,7 @@ class S2Pagination extends StatelessWidget {
   Widget reloadableWidget(Widget child) {
     return RefreshIndicator(
       child: child,
-      onRefresh: () async => onReload?.call(),
+      onRefresh: () async => onReload.call(),
     );
   }
 
@@ -53,7 +53,7 @@ class S2Pagination extends StatelessWidget {
       onNotification: (ScrollNotification scrollInfo) {
         if (scrollInfo is ScrollEndNotification &&
             scrollInfo.metrics.extentAfter == 0) {
-          onAppend?.call();
+          onAppend.call();
           return true;
         }
         return false;
